@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node src/index.mjs",
+    "start:railway": "node scripts/env-to-config.mjs && node src/index.mjs",
     "setup": "node setup-wizard.mjs",
     "install-service": "node scripts/install-autostart.mjs",
     "postinstall": "patch-package"
