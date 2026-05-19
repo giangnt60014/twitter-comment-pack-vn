@@ -54,6 +54,8 @@ if (FORCE || !fs.existsSync(COOKIES_FILE)) {
   let parsed;
   try {
     parsed = JSON.parse(raw);
+    // Handle double-encoded case: Railway sometimes wraps value in extra quotes → "\"[...]\""
+    if (typeof parsed === 'string') parsed = JSON.parse(parsed);
   } catch {
     console.error('[env-to-config] ERROR: TWITTER_COOKIES is not valid JSON');
     process.exit(1);
