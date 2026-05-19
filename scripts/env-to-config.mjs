@@ -108,7 +108,16 @@ if (FORCE || !fs.existsSync(CONFIG_FILE)) {
       hashtags,
       crossPostListId:  optional_env('CROSS_POST_LIST_ID', ''),
     },
-    commentsPerHour: Number(optional_env('COMMENTS_PER_HOUR', '15')),
+    commentsPerHour: (() => {
+      const min = Number(optional_env('COMMENTS_PER_HOUR_MIN', '0'));
+      const max = Number(optional_env('COMMENTS_PER_HOUR_MAX', '0'));
+      if (min > 0 && max >= min) {
+        const val = Math.floor(Math.random() * (max - min + 1)) + min;
+        console.log(`[env-to-config] commentsPerHour = ${val} (random ${min}–${max})`);
+        return val;
+      }
+      return Number(optional_env('COMMENTS_PER_HOUR', '15'));
+    })(),
     delayMinMs:      Number(optional_env('DELAY_MIN_MS', '60000')),
     delayMaxMs:      Number(optional_env('DELAY_MAX_MS', '240000')),
     ai: { provider, apiKey, model },
