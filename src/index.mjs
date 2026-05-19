@@ -35,6 +35,17 @@ async function main() {
   await sendAlert(cfg.telegram?.botToken, cfg.telegram?.chatId,
     `[twitter-comment-pack] started in mode ${cfg.mode}`);
 
+  // Hourly re-randomize commentsPerHour if min/max are configured
+  const randomizeRate = () => {
+    const { commentsPerHourMin: min, commentsPerHourMax: max } = cfg;
+    if (min > 0 && max >= min) {
+      cfg.commentsPerHour = Math.floor(Math.random() * (max - min + 1)) + min;
+      log(`Rate randomized: ${cfg.commentsPerHour}/hr (range ${min}–${max})`);
+    }
+  };
+  randomizeRate();
+  setInterval(randomizeRate, 60 * 60 * 1000);
+
   // Schedule background session check every 2h, plus once on startup
   const runHealth = async () => {
     try { await runWarmup(cfg, DEBUG); } catch {}
