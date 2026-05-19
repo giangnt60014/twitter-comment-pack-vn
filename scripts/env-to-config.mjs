@@ -43,11 +43,13 @@ function optional_env(name, fallback) {
   return process.env[name] || fallback;
 }
 
+const FORCE = process.env.FORCE_REINIT === '1';
+
 // --- ensure data/ dir ---
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 // --- cookies ---
-if (!fs.existsSync(COOKIES_FILE)) {
+if (FORCE || !fs.existsSync(COOKIES_FILE)) {
   const raw = require_env('TWITTER_COOKIES');
   let parsed;
   try {
@@ -79,7 +81,7 @@ if (!fs.existsSync(COOKIES_FILE)) {
 }
 
 // --- config ---
-if (!fs.existsSync(CONFIG_FILE)) {
+if (FORCE || !fs.existsSync(CONFIG_FILE)) {
   const mode     = optional_env('MODE', 'A').toUpperCase();
   const provider = optional_env('AI_PROVIDER', 'deepseek');
   const apiKey   = require_env('AI_API_KEY');

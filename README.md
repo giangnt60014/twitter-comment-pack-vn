@@ -46,6 +46,19 @@ Logs: `data/run.log`. Xem real-time: `Get-Content data/run.log -Wait` (PowerShel
 - Cookies hết hạn (~2-4 tuần) → re-export và `npm run setup` lại (chỉ cần làm lại Q1).
 - Mode B chỉ dùng cho nội dung viral / signal trade / on-chain analysis. KHÔNG dùng spam tin tức → bị restrict.
 
+---
+
+## Deploy lên Railway (cloud, không cần máy tính luôn bật)
+
+1. **Tạo project** trên Railway từ repo này
+2. **Thêm Volume** → Mount Path: `/app/data` (giữ lịch sử comment và store.db qua các lần redeploy)
+3. **Set env vars**: `TWITTER_COOKIES`, `AI_API_KEY`, `MODE`, `LIST_IDS`, v.v.
+4. Railway tự deploy — xem logs trong dashboard
+
+Chi tiết từng bước: xem [`guides/05-railway-deploy.md`](guides/05-railway-deploy.md)
+
+**Khi cookies hết hạn**: cập nhật env var `TWITTER_COOKIES`, xoá `cookies.json` trên volume, hoặc set `FORCE_REINIT=1` rồi redeploy (xoá biến đó sau khi xong).
+
 ### Gỡ auto-start
 ```cmd
 schtasks /Delete /TN TwitterCommentPack /F
