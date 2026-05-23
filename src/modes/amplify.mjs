@@ -92,6 +92,7 @@ export async function runAmplifyMode(cfg, log) {
 
       for (const t of result.tweets) {
         if (t.isRetweet) continue;
+        if (!t.fullText || t.fullText.trim().length < 10) continue;
         if (t.author?.toLowerCase() === owner.toLowerCase()) continue;
         const age = Date.now() - new Date(t.createdAt).getTime();
         if (age > MAX_AGE_MS) continue;
