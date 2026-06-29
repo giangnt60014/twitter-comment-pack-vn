@@ -1,12 +1,12 @@
 diff --git a/node_modules/x-client-transaction-id/esm/transaction.js b/node_modules/x-client-transaction-id/esm/transaction.js
-index e644d4d..d62cc2b 100644
+index 203d60c..3b140de 100644
 --- a/node_modules/x-client-transaction-id/esm/transaction.js
 +++ b/node_modules/x-client-transaction-id/esm/transaction.js
 @@ -12,13 +12,22 @@ import { floatToHex, isOdd } from "./utils.js";
  import { decodeBase64, encodeBase64 } from "./deps/jsr.io/@std/encoding/1.0.10/mod.js";
  const ON_DEMAND_CHUNK_NAME = "ondemand.s";
  const INDICES_REGEX = /\(\w\[(\d{1,2})\],\s*16\)/g;
--const ON_DEMAND_FILE_HASH_REGEX = /(\d+):\s*["']ondemand\.s["'][\s\S]*?\}\[e\]\s*\|\|\s*e\)\s*\+\s*["']\.["']\s*\+\s*\{[\s\S]*?\b\1:\s*["']([a-zA-Z0-9_-]+)["']/s;
+-const ON_DEMAND_FILE_HASH_REGEX = /(\d+):\s*["']ondemand\.s["'][\s\S]*?\}\)\[e\]\s*\|\|\s*e\)\s*\+\s*["']\.["']\s*\+\s*\(\{[\s\S]*?\b\1:\s*["']([a-zA-Z0-9_-]+)["']/s;
 +const ON_DEMAND_FILE_HASH_REGEX = /(\d+):\s*["']ondemand\.s["'][\s\S]*?\}\)?\[e\]\s*\|\|\s*e\)\s*\+\s*["']\.["']\s*\+\s*\(?\{[\s\S]*?\b\1:\s*["']([a-zA-Z0-9_-]+)["']/s;
  function resolveOnDemandFileUrlFromRuntime(runtimeSource) {
      const onDemandFileMatch = ON_DEMAND_FILE_HASH_REGEX.exec(runtimeSource);
